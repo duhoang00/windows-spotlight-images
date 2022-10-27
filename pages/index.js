@@ -30,7 +30,6 @@ export default function Home() {
     reader.addEventListener(
       "load",
       () => {
-        console.log("result", reader.result);
         // convert image file to base64 string
         preview.src = reader.result;
       },
@@ -38,7 +37,6 @@ export default function Home() {
     );
 
     if (file) {
-      console.log("file", file);
       reader.readAsDataURL(file);
     }
   }
@@ -114,7 +112,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            <img src="" height="200" alt="Image preview" />
+            <img src="" height="300" width="300" alt="" />
           </Stack>
         </Container>
       </main>
