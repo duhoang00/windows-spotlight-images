@@ -22,27 +22,24 @@ export default function Home() {
     setMachineName(event.target.value);
   }
 
-  function onChangeChosenFiles(event) {
-    // FileList object
-    const files = event.target.files;
-    console.log("readed file", files);
-
-    let f = files[0];
-
-    const imgtag = document.getElementById("image");
-
+  function onChangeChosenFiles() {
+    const preview = document.querySelector("img");
+    const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
 
     reader.addEventListener(
       "load",
       () => {
-        imgtag.src = reader.result;
+        console.log("result", reader.result);
+        // convert image file to base64 string
+        preview.src = reader.result;
       },
       false
     );
 
-    if (f) {
-      reader.readAsDataURL(f);
+    if (file) {
+      console.log("file", file);
+      reader.readAsDataURL(file);
     }
   }
 
@@ -101,9 +98,10 @@ export default function Home() {
               <b>Please choose all files</b>
               <Paper sx={{ p: 5, m: 1 }}>
                 <input
+                  id="browse"
                   type="file"
-                  multiple="multiple"
                   onChange={onChangeChosenFiles}
+                  multiple
                 />
               </Paper>
             </Stack>
@@ -116,14 +114,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            <Image
-              fill="true"
-              id="image"
-              width="100"
-              height="100"
-              objectFit="contain"
-              alt=""
-            />
+            <Image src="" height="200" alt="Image preview" />
           </Stack>
         </Container>
       </main>
