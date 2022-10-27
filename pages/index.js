@@ -36,6 +36,8 @@ export default function Home() {
           image.height = 100;
           image.title = file.name;
           image.src = reader.result;
+
+          image.style.marginRight = "10px";
           preview.appendChild(image);
         },
         false
@@ -122,7 +124,6 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* <img src="" height="300" width="300" alt="" /> */}
             <div id="preview"></div>
           </Stack>
         </Container>
