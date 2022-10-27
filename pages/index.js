@@ -23,21 +23,31 @@ export default function Home() {
   }
 
   function onChangeChosenFiles() {
-    const preview = document.querySelector("img");
-    const file = document.querySelector("input[type=file]").files[0];
-    const reader = new FileReader();
+    const preview = document.querySelector("#preview");
+    const files = document.querySelector("input[type=file]").files;
 
-    reader.addEventListener(
-      "load",
-      () => {
-        // convert image file to base64 string
-        preview.src = reader.result;
-      },
-      false
-    );
+    function addSrc(file) {
+      const reader = new FileReader();
 
-    if (file) {
-      reader.readAsDataURL(file);
+      reader.addEventListener(
+        "load",
+        () => {
+          let image = document.createElement("img");
+          image.height = 100;
+          image.title = file.name;
+          image.src = reader.result;
+          preview.appendChild(image);
+        },
+        false
+      );
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    if (files) {
+      Array.prototype.forEach.call(files, addSrc);
     }
   }
 
@@ -112,7 +122,8 @@ export default function Home() {
               position: "relative",
             }}
           >
-            <img src="" height="300" width="300" alt="" />
+            {/* <img src="" height="300" width="300" alt="" /> */}
+            <div id="preview"></div>
           </Stack>
         </Container>
       </main>
