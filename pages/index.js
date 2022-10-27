@@ -34,7 +34,9 @@ export default function Home() {
 
     const reader = new FileReader();
     reader.onload = function (event) {
-      imgtag.src = event.target.result;
+      console.log("result", event.target.result);
+      // imgtag.src = event.target.result;
+      imgtag.setAttribute("src", event.target.result);
     };
 
     reader.readAsDataURL(f);
@@ -111,7 +113,7 @@ export default function Home() {
             }}
           >
             <Image
-              fill
+              fill="true"
               id="image"
               width="100"
               height="100"
