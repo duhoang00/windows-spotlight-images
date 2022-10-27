@@ -30,16 +30,20 @@ export default function Home() {
     let f = files[0];
 
     const imgtag = document.getElementById("image");
-    imgtag.title = f.name;
 
     const reader = new FileReader();
-    reader.onload = function (event) {
-      console.log("result", event.target.result);
-      // imgtag.src = event.target.result;
-      imgtag.setAttribute("src", event.target.result);
-    };
 
-    reader.readAsDataURL(f);
+    reader.addEventListener(
+      "load",
+      () => {
+        imgtag.src = reader.result;
+      },
+      false
+    );
+
+    if (f) {
+      reader.readAsDataURL(f);
+    }
   }
 
   useEffect(() => {
