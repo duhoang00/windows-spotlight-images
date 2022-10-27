@@ -114,7 +114,7 @@ export default function Home() {
               position: "relative",
             }}
           >
-            <Image src="" height="200" alt="Image preview" />
+            <img src="" height="200" alt="Image preview" />
           </Stack>
         </Container>
       </main>
