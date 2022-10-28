@@ -1,5 +1,7 @@
 ### Windows spotlight images (WSI)
 
+![preview](https://github.com/duhoang00/windows-spotlight-images/blob/main/public/wsi.png?raw=true)
+
 ## OS
 
 - Windows 11
