@@ -135,7 +135,11 @@ export default function Home() {
               <ImageList cols={3} rowHeight={164} variant="quilted">
                 {imageSource.map((item, index) => (
                   <ImageListItem key={index}>
-                    <img src={item.src} alt="" />
+                    <img
+                      src={item.src}
+                      alt=""
+                      style={{ borderRadius: "5px" }}
+                    />
                     <ImageListItemBar
                       title={`W:${item.width} x H:${
                         item.height ? item.height : "?"
