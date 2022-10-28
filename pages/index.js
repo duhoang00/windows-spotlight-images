@@ -94,7 +94,7 @@ export default function Home() {
               <div>
                 <b>Your url</b>
                 <p>Copy and paste into file url</p>
-                <Paper sx={{ p: 5 }}>
+                <Paper sx={{ p: 5, bgcolor: "#dddddd" }}>
                   {machineName && (
                     <div>
                       C:/Users/
@@ -112,7 +112,7 @@ export default function Home() {
           {machineName && (
             <Stack sx={{ m: 5, textAlign: "center" }}>
               <b>Please choose all files</b>
-              <Paper sx={{ p: 5, m: 1 }}>
+              <Paper sx={{ p: 5, m: 1, bgcolor: "#dddddd" }}>
                 <input
                   id="browse"
                   type="file"
@@ -126,10 +126,12 @@ export default function Home() {
           {imageSource && (
             <Stack
               sx={{
-                m: 5,
+                m: 6,
                 textAlign: "center",
                 position: "relative",
                 alignItems: "center",
+                bgcolor: "#dddddd",
+                borderRadius: "5px",
               }}
             >
               <ImageList cols={3} rowHeight={164} variant="quilted">
