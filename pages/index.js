@@ -1,29 +1,25 @@
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 
 import {
-  Input,
   TextField,
-  Button,
   Container,
   Stack,
   Paper,
   Box,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Home() {
   const [machineName, setMachineName] = useState(undefined);
-  const [wsiUrl, setWsiUrl] = useState(undefined);
+  const [imageSource, setImageSource] = useState([]);
 
   function onChangeMachineName(event) {
     setMachineName(event.target.value);
   }
 
   function onChangeChosenFiles() {
-    const preview = document.querySelector("#preview");
     const files = document.querySelector("input[type=file]").files;
 
     function addSrc(file) {
@@ -32,13 +28,7 @@ export default function Home() {
       reader.addEventListener(
         "load",
         () => {
-          let image = document.createElement("img");
-          image.height = 100;
-          image.title = file.name;
-          image.src = reader.result;
-
-          image.style.marginRight = "10px";
-          preview.appendChild(image);
+          setImageSource((prevState) => [...prevState, reader.result]);
         },
         false
       );
@@ -54,10 +44,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    setWsiUrl(
-      `C:/Users/${machineName}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets`
-    );
-  }, [machineName]);
+    console.log("src", imageSource);
+  }, [imageSource]);
 
   return (
     <div>
@@ -117,15 +105,24 @@ export default function Home() {
             </Stack>
           )}
 
-          <Stack
-            sx={{
-              m: 5,
-              textAlign: "center",
-              position: "relative",
-            }}
-          >
-            <div id="preview"></div>
-          </Stack>
+          {imageSource && (
+            <Stack
+              sx={{
+                m: 5,
+                textAlign: "center",
+                position: "relative",
+                alignItems: "center",
+              }}
+            >
+              <ImageList cols={3} rowHeight={164} variant="quilted">
+                {imageSource.map((item, index) => (
+                  <ImageListItem key={index}>
+                    <img src={item} alt="" />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </Stack>
+          )}
         </Container>
       </main>
 
