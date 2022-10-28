@@ -154,20 +154,6 @@ export default function Home() {
           )}
         </Container>
       </main>
-
-      <Box
-        sx={{
-          p: 2,
-          textAlign: "center",
-          position: "absolute",
-          bottom: 0,
-          width: "-webkit-fill-available",
-        }}
-      >
-        <a href="/" target="_blank" rel="noopener noreferrer">
-          Powered by Du Hoang
-        </a>
-      </Box>
     </div>
   );
 }
