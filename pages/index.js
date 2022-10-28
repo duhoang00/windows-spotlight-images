@@ -123,7 +123,7 @@ export default function Home() {
             </Stack>
           )}
 
-          {imageSource && (
+          {imageSource.length > 0 && (
             <Stack
               sx={{
                 m: 6,
