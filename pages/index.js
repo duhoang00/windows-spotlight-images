@@ -9,7 +9,11 @@ import {
   Box,
   ImageList,
   ImageListItem,
+  ImageListItemBar,
 } from "@mui/material";
+
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 export default function Home() {
   const [machineName, setMachineName] = useState(undefined);
@@ -22,13 +26,31 @@ export default function Home() {
   function onChangeChosenFiles() {
     const files = document.querySelector("input[type=file]").files;
 
+    if (files) {
+      Array.prototype.forEach.call(files, addSrc);
+    }
+
     function addSrc(file) {
       const reader = new FileReader();
-
       reader.addEventListener(
         "load",
-        () => {
-          setImageSource((prevState) => [...prevState, reader.result]);
+        (event) => {
+          const result = reader.result;
+
+          let img = document.createElement("img");
+          img.setAttribute("src", result);
+
+          img.onload = function () {
+            setImageSource((prevState) => [
+              ...prevState,
+              {
+                src: result,
+                size: event.loaded,
+                width: img.width,
+                height: img.heigt,
+              },
+            ]);
+          };
         },
         false
       );
@@ -37,15 +59,11 @@ export default function Home() {
         reader.readAsDataURL(file);
       }
     }
-
-    if (files) {
-      Array.prototype.forEach.call(files, addSrc);
-    }
   }
 
   useEffect(() => {
-    console.log("src", imageSource);
-  }, [imageSource]);
+    console.log("imageSource", imageSource);
+  });
 
   return (
     <div>
@@ -117,7 +135,18 @@ export default function Home() {
               <ImageList cols={3} rowHeight={164} variant="quilted">
                 {imageSource.map((item, index) => (
                   <ImageListItem key={index}>
-                    <img src={item} alt="" />
+                    <img src={item.src} alt="" />
+                    <ImageListItemBar
+                      title={`W:${item.width} x H:${
+                        item.height ? item.height : "?"
+                      }`}
+                      subtitle={`${item.size} KB`}
+                      actionIcon={
+                        <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
+                          <InfoIcon />
+                        </IconButton>
+                      }
+                    />
                   </ImageListItem>
                 ))}
               </ImageList>
