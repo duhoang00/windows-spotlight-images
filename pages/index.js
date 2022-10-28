@@ -45,7 +45,7 @@ export default function Home() {
               ...prevState,
               {
                 src: result,
-                size: event.loaded,
+                size: parseFloat(event.loaded / 1024 / 1000).toFixed(2),
                 width: img.width,
                 height: img.heigt,
               },
@@ -140,7 +140,7 @@ export default function Home() {
                       title={`W:${item.width} x H:${
                         item.height ? item.height : "?"
                       }`}
-                      subtitle={`${item.size} KB`}
+                      subtitle={`${item.size} MB`}
                       actionIcon={
                         <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
                           <InfoIcon />
