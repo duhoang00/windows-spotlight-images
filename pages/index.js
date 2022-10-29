@@ -47,7 +47,7 @@ export default function Home() {
                 src: result,
                 size: parseFloat(event.loaded / 1024 / 1000).toFixed(2),
                 width: img.width,
-                height: img.heigt,
+                height: img.height,
               },
             ]);
           };
@@ -143,9 +143,7 @@ export default function Home() {
                       style={{ borderRadius: "5px" }}
                     />
                     <ImageListItemBar
-                      title={`W:${item.width} x H:${
-                        item.height ? item.height : "?"
-                      }`}
+                      title={`W:${item.width} x H:${item.height}`}
                       subtitle={`${item.size} MB`}
                       actionIcon={
                         <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
