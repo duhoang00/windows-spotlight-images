@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 import {
   TextField,
@@ -15,6 +17,10 @@ import {
   Checkbox,
   Button,
 } from "@mui/material";
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
 export default function Home() {
   const [machineName, setMachineName] = useState(undefined);
@@ -47,7 +53,7 @@ export default function Home() {
             setImageSource((prevState) => [
               ...prevState,
               {
-                id: Math.random(),
+                id: `${getRandomInt(9999)}_${img.width}`,
                 src: result,
                 size: parseFloat(event.loaded / 1024 / 1000).toFixed(2),
                 width: img.width,
@@ -71,15 +77,28 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    console.log("img", imageSource);
-  }, [imageSource]);
+  async function download() {
+    let zip = new JSZip();
+
+    let arrOfFiles = imageSource.filter((image) =>
+      checkedItemIds.includes(image.id)
+    );
+
+    if (arrOfFiles.length === 0) return;
+
+    arrOfFiles.map((file) => {
+      const downloadLink = document.createElement("a");
+      downloadLink.href = file.src;
+      downloadLink.download = `wsi_${file.id}_${file.width}x${file.height}.png`;
+      downloadLink.click();
+    });
+  }
 
   return (
     <div>
       <Head>
-        <title>WSI</title>
-        <meta name="wsi" content="WSI" />
+        <title>WSI - Windows spotlight images</title>
+        <meta name="wsi" content="Windows spotlight images" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -157,7 +176,9 @@ export default function Home() {
                   <MenuItem value={"square"}>Square</MenuItem>
                 </Select>
                 {checkedItemIds.length > 0 && (
-                  <Button variant="contained">Download</Button>
+                  <Button variant="contained" onClick={download}>
+                    Download
+                  </Button>
                 )}
               </Stack>
               <Stack justifyContent="center" alignItems="center">
