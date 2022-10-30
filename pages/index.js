@@ -12,12 +12,15 @@ import {
   ImageListItemBar,
   Select,
   MenuItem,
+  Checkbox,
+  Button,
 } from "@mui/material";
 
 export default function Home() {
   const [machineName, setMachineName] = useState(undefined);
   const [imageSource, setImageSource] = useState([]);
   const [filterValue, setFilterValue] = useState("horizontal");
+  const [checkedItemIds, setCheckedItemIds] = useState([]);
 
   function onChangeMachineName(event) {
     setMachineName(event.target.value);
@@ -44,6 +47,7 @@ export default function Home() {
             setImageSource((prevState) => [
               ...prevState,
               {
+                id: Math.random(),
                 src: result,
                 size: parseFloat(event.loaded / 1024 / 1000).toFixed(2),
                 width: img.width,
@@ -130,58 +134,85 @@ export default function Home() {
           )}
 
           {imageSource.length > 0 && (
-            <Stack
+            <Box
               sx={{
                 m: 6,
-                textAlign: "center",
+                p: 2,
                 position: "relative",
-                alignItems: "center",
                 bgcolor: "#dddddd",
                 borderRadius: "5px",
               }}
             >
-              <Select
-                value={filterValue}
-                label="filter"
-                onChange={(event) => {
-                  setFilterValue(event.target.value);
-                }}
-                sx={{ mt: 1 }}
-              >
-                <MenuItem value={"all"}>All</MenuItem>
-                <MenuItem value={"horizontal"}>Horizontal</MenuItem>
-                <MenuItem value={"vertical"}>Vertical</MenuItem>
-                <MenuItem value={"square"}>Square</MenuItem>
-              </Select>
-              <ImageList
-                sx={{ width: "90%" }}
-                cols={3}
-                rowHeight={200}
-                variant="masonry"
-              >
-                {imageSource.map((item, index) => (
-                  <ImageListItem
-                    key={index}
-                    sx={{
-                      display:
-                        filterValue === "all" ||
-                        item.orientation === filterValue
-                          ? "block"
-                          : "none",
-                    }}
-                  >
-                    <img
-                      src={item.src}
-                      alt=""
-                      style={{ borderRadius: "5px" }}
-                    />
-                    <ImageListItemBar
-                      title={`W:${item.width} x H:${item.height}`}
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Stack>
+              <Stack direction="row" justifyContent="space-between" spacing={2}>
+                <Select
+                  value={filterValue}
+                  label="filter"
+                  onChange={(event) => {
+                    setFilterValue(event.target.value);
+                  }}
+                >
+                  <MenuItem value={"all"}>All</MenuItem>
+                  <MenuItem value={"horizontal"}>Horizontal</MenuItem>
+                  <MenuItem value={"vertical"}>Vertical</MenuItem>
+                  <MenuItem value={"square"}>Square</MenuItem>
+                </Select>
+                {checkedItemIds.length > 0 && (
+                  <Button variant="contained">Download</Button>
+                )}
+              </Stack>
+              <Stack justifyContent="center" alignItems="center">
+                <ImageList
+                  sx={{ width: "100%" }}
+                  cols={3}
+                  rowHeight={200}
+                  variant="masonry"
+                >
+                  {imageSource.map((item, index) => (
+                    <ImageListItem
+                      key={item.id}
+                      sx={{
+                        display:
+                          filterValue === "all" ||
+                          item.orientation === filterValue
+                            ? "block"
+                            : "none",
+                      }}
+                    >
+                      <img
+                        src={item.src}
+                        alt=""
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <ImageListItemBar
+                        title={`W:${item.width} x H:${item.height}`}
+                        actionIcon={
+                          <Checkbox
+                            sx={{
+                              color: "white",
+                              "&.Mui-checked": {
+                                color: "white",
+                              },
+                            }}
+                            checked={checkedItemIds.includes(item.id)}
+                            onChange={(event) => {
+                              checkedItemIds.includes(item.id)
+                                ? setCheckedItemIds(
+                                    checkedItemIds.filter((i) => i !== item.id)
+                                  )
+                                : setCheckedItemIds([
+                                    ...checkedItemIds,
+                                    item.id,
+                                  ]);
+                            }}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+              </Stack>
+            </Box>
           )}
         </Container>
       </main>
