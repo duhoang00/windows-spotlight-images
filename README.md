@@ -16,6 +16,5 @@
 - Get user's machine name
 - Create WSI folder's url
 - User choose files
-- Convert those files
 - Show those files
-- Allow users to save, copy any images
+- Allow users to download
