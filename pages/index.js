@@ -156,7 +156,7 @@ export default function Home() {
               <ImageList
                 sx={{ width: "90%" }}
                 cols={3}
-                rowHeight={164}
+                rowHeight={200}
                 variant="masonry"
               >
                 {imageSource.map((item, index) => (
