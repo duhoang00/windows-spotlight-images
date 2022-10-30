@@ -1,6 +1,6 @@
 ### Windows spotlight images (WSI)
 
-![windows-spotlight-images](https://github.com/duhoang00/windows-spotlight-images/blob/main/public/wsi.png?raw=true)
+![windows-spotlight-images](https://github.com/duhoang00/windows-spotlight-images/blob/main/public/wsi_new.png?raw=true)
 
 ## OS
 
