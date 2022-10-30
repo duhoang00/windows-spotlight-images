@@ -86,11 +86,18 @@ export default function Home() {
 
     if (arrOfFiles.length === 0) return;
 
-    arrOfFiles.map((file) => {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = file.src;
-      downloadLink.download = `wsi_${file.id}_${file.width}x${file.height}.png`;
-      downloadLink.click();
+    await arrOfFiles.map((file) => {
+      zip.file(
+        `wsi_${file.id}_${file.width}_${file.height}.png`,
+        file.src.split(",")[1],
+        {
+          base64: true,
+        }
+      );
+    });
+
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      saveAs(content, "wsi.zip");
     });
   }
 
