@@ -10,14 +10,14 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Select,
+  MenuItem,
 } from "@mui/material";
-
-import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 
 export default function Home() {
   const [machineName, setMachineName] = useState(undefined);
   const [imageSource, setImageSource] = useState([]);
+  const [filterValue, setFilterValue] = useState("horizontal");
 
   function onChangeMachineName(event) {
     setMachineName(event.target.value);
@@ -48,6 +48,12 @@ export default function Home() {
                 size: parseFloat(event.loaded / 1024 / 1000).toFixed(2),
                 width: img.width,
                 height: img.height,
+                orientation:
+                  img.width === img.height
+                    ? "square"
+                    : img.width > img.height
+                    ? "horizontal"
+                    : "vertical",
               },
             ]);
           };
@@ -62,8 +68,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log("imageSource", imageSource);
-  });
+    console.log("img", imageSource);
+  }, [imageSource]);
 
   return (
     <div>
@@ -134,9 +140,36 @@ export default function Home() {
                 borderRadius: "5px",
               }}
             >
-              <ImageList cols={3} rowHeight={164} variant="quilted">
+              <Select
+                value={filterValue}
+                label="filter"
+                onChange={(event) => {
+                  setFilterValue(event.target.value);
+                }}
+                sx={{ mt: 1 }}
+              >
+                <MenuItem value={"all"}>All</MenuItem>
+                <MenuItem value={"horizontal"}>Horizontal</MenuItem>
+                <MenuItem value={"vertical"}>Vertical</MenuItem>
+                <MenuItem value={"square"}>Square</MenuItem>
+              </Select>
+              <ImageList
+                sx={{ width: "90%" }}
+                cols={3}
+                rowHeight={164}
+                variant="masonry"
+              >
                 {imageSource.map((item, index) => (
-                  <ImageListItem key={index}>
+                  <ImageListItem
+                    key={index}
+                    sx={{
+                      display:
+                        filterValue === "all" ||
+                        item.orientation === filterValue
+                          ? "block"
+                          : "none",
+                    }}
+                  >
                     <img
                       src={item.src}
                       alt=""
@@ -144,12 +177,6 @@ export default function Home() {
                     />
                     <ImageListItemBar
                       title={`W:${item.width} x H:${item.height}`}
-                      subtitle={`${item.size} MB`}
-                      actionIcon={
-                        <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
-                          <InfoIcon />
-                        </IconButton>
-                      }
                     />
                   </ImageListItem>
                 ))}
